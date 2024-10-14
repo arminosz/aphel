@@ -36,6 +36,7 @@ aphel yourfile.aph
 java -cp src\aphelios\Aphel.jar aphelios.Aphel yourfile.aph
 ```
 <sub>By default, the repository comes with a HelloWorld.aph file, try it!</sub>
+
 <sub>For devs: There's a build.bat in src/aphelios, if you want to build easier :)</sub>
 
 
