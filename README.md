@@ -29,7 +29,7 @@ To run Aphel, ensure you have Java installed. Clone this repository and use the 
 
 <sub>By default, the repository comes with a HelloWorld.aph file, try it!</sub>
 ```bash
-git clone <repository-url>
+git clone https://github.com/arminosz/aphel.git
 cd aphel
 #If in windows CMD:
 aphel yourfile.aph
