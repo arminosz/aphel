@@ -27,7 +27,6 @@ Aphel follows an **imperative** style (structured, step-by-step programming), an
 
 To run Aphel, ensure you have Java installed. Clone this repository and use the interpreter:
 
-<sub>By default, the repository comes with a HelloWorld.aph file, try it!</sub>
 ```bash
 git clone https://github.com/arminosz/aphel.git
 cd aphel
@@ -36,6 +35,7 @@ aphel yourfile.aph
 #Other OSs
 java -cp src\aphelios\Aphel.jar aphelios.Aphel yourfile.aph
 ```
+<sub>By default, the repository comes with a HelloWorld.aph file, try it!</sub>
 <sub>For devs: There's a build.bat in src/aphelios, if you want to build easier :)</sub>
 
 
