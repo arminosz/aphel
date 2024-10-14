@@ -109,5 +109,3 @@ The current version of Aphel is still under development, and some features may n
 - **Division Results**: Any division operation that would result in a floating-point number is rounded to the nearest integer
 - **Logical Operations**: Operations like `&&` (AND) and `||` (OR) are not functioning correctly
 - **IF conditional**: Negated conditionals using boolean variables may freeze the interpreter 
-
----
