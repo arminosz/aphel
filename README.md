@@ -100,8 +100,8 @@ PRINTC(greeting);
 
 ### 7. **Logical Operations**
 ```txt
-int1 = false
-int2 = false
+var1 = false
+var2 = false
 //First Conditional: Logical AND:
 IF(int1 && int2) {
 PRINTC("And operation completed!")
@@ -110,7 +110,7 @@ PRINTC("And operation completed!")
 IF(!int1 || int2) {
 PRINTC("Or operation completed!")
 }
-// !int1 is true because '!' negates false, and int2 is false, so (!int1 || int2) equals true, thus printing the string
+// !int1 is true because '!' negates false, and int2 is false, so (!int1 OR int2) equals true, thus printing
 ```
 
 ## ⚡ Known Issues
