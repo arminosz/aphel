@@ -228,7 +228,12 @@ public class ExpressionEvaluator {
             if (((Number) b).doubleValue() == 0) {
                 throw new InterpreterException("Division by zero.");
             }
-            return ((Number) a).doubleValue() / ((Number) b).doubleValue();
+            double result = ((Number) a).doubleValue() / ((Number) b).doubleValue();
+            if (result == Math.floor(result)) {
+                return (int) result;
+            } else {
+                return result;
+            }
         }
         throw new InterpreterException("Cannot divide " + a + " and " + b);
     }
