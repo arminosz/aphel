@@ -21,11 +21,10 @@ Aphel follows an **imperative** style (structured, step-by-step programming), an
 - **Control Flow**: Includes `IF` statements, `WHILE` loops, and `FOR` loops
 - **Basic Arithmetic**: Perform calculations and store results in variables
 
----
 
 ## ⏬ Installation
 
-To run Aphel, ensure you have Java installed. Clone this repository and use the interpreter:
+To run Aphel, ensure you have Java JRE 22 or newer installed. Clone this repository and use the interpreter:
 
 ```bash
 git clone https://github.com/arminosz/aphel.git
@@ -37,7 +36,7 @@ java -cp src\aphelios\Aphel.jar aphelios.Aphel yourfile.aph
 ```
 <sub>By default, the repository comes with a HelloWorld.aph file, try it!</sub>
 
-<sub>For devs: There's a build.bat in src/aphelios, if you want to build easier :)</sub>
+<sub>For devs: There's a build.bat in src/aphelios, for easier builds (you'll need JDK 22+)</sub>
 
 
 ## 🏴 Code Snippets
@@ -99,6 +98,20 @@ PRINTC(greeting);
 ```
 > Your output may not be the expected one, string manipulation isn't fully ready yet!
 
+## 7. **Logical Operations**
+```txt
+int1 = false
+int2 = false
+//First Conditional: Logical AND:
+IF(int1 && int2) {
+PRINTC("And operation completed!")
+}
+//First Conditional: Logical OR:
+IF(!int1 || int2) {
+PRINTC("Or operation completed!")
+}
+// !int1 is true because '!' negates false, and int2 is false, so (!int1 || int2) equals true, thus printing the string
+```
 
 ## ⚡ Known Issues
 
@@ -106,6 +119,3 @@ The current version of Aphel is still under development, and some features may n
 
 - **String Manipulation**: Variables containing strings may not behave as expected when manipulated
 - **Functions**: General function handling is still in development, with incomplete functionality
-- **Division Results**: Any division operation that would result in a floating-point number is rounded to the nearest integer
-- **Logical Operations**: Operations like `&&` (AND) and `||` (OR) are not functioning correctly
-- **IF conditional**: Negated conditionals using boolean variables may freeze the interpreter 
