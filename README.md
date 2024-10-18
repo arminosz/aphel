@@ -98,7 +98,7 @@ PRINTC(greeting);
 ```
 > Your output may not be the expected one, string manipulation isn't fully ready yet!
 
-## 7. **Logical Operations**
+### 7. **Logical Operations**
 ```txt
 int1 = false
 int2 = false
