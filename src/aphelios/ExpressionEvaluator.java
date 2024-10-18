@@ -66,30 +66,41 @@ public class ExpressionEvaluator {
         StringBuilder currentToken = new StringBuilder();
         boolean insideQuotes = false;
 
-        for (char c : expression.toCharArray()) {
+        for (int i = 0; i < expression.length(); i++) {
+            char c = expression.charAt(i);
             if (c == '"') {
                 insideQuotes = !insideQuotes;
                 currentToken.append(c);
-            } else if (c == '(' || c == ')' || c == '+' || c == '-' || c == '*' || c == '/' ||
-                       c == '=' || c == '!' || c == '<' || c == '>' || c == ',') {
-                if (insideQuotes) {
-                    currentToken.append(c);
+            } else if (!insideQuotes && (c == '(' || c == ')' || c == '+' || c == '-' || c == '*' || c == '/' ||
+                       c == '=' || c == '!' || c == '<' || c == '>' || c == ',')) {
+                if (currentToken.length() > 0) {
+                    tokens.add(currentToken.toString());
+                    currentToken = new StringBuilder();
+                }
+                if (c == '=' && i > 0 && (expression.charAt(i - 1) == '=' || 
+                                          expression.charAt(i - 1) == '!' || 
+                                          expression.charAt(i - 1) == '<' || 
+                                          expression.charAt(i - 1) == '>')) {
+                    tokens.set(tokens.size() - 1, tokens.get(tokens.size() - 1) + "=");
                 } else {
-                    if (currentToken.length() > 0) {
-                        tokens.add(currentToken.toString());
-                        currentToken = new StringBuilder();
-                    }
-                    if (c == '=' && !tokens.isEmpty() && (tokens.get(tokens.size() - 1).equals("=") ||
-                                                          tokens.get(tokens.size() - 1).equals("!") ||
-                                                          tokens.get(tokens.size() - 1).equals("<") ||
-                                                          tokens.get(tokens.size() - 1).equals(">"))) {
-                        tokens.set(tokens.size() - 1, tokens.get(tokens.size() - 1) + "=");
-                    } else {
-                        tokens.add(String.valueOf(c));
-                    }
+                    tokens.add(String.valueOf(c));
+                }
+            } else if (!insideQuotes && (c == '&' || c == '|')) {
+                if (currentToken.length() > 0) {
+                    tokens.add(currentToken.toString());
+                    currentToken = new StringBuilder();
+                }
+                if (i + 1 < expression.length() && expression.charAt(i + 1) == c) {
+                    tokens.add(c == '&' ? "&&" : "||");
+                    i++; // Skip the next character
+                } else {
+                    tokens.add(String.valueOf(c));
                 }
             } else if (!Character.isWhitespace(c) || insideQuotes) {
                 currentToken.append(c);
+            } else if (currentToken.length() > 0) {
+                tokens.add(currentToken.toString());
+                currentToken = new StringBuilder();
             }
         }
         if (currentToken.length() > 0) {
@@ -102,11 +113,16 @@ public class ExpressionEvaluator {
         List<String> postfix = new ArrayList<>();
         Stack<String> operators = new Stack<>();
 
-        for (String token : infix) {
+        for (int i = 0; i < infix.size(); i++) {
+            String token = infix.get(i);
             if (token.matches("[a-zA-Z_][a-zA-Z0-9_]*") || 
                 token.matches("-?\\d+(\\.\\d*)?") || 
-                token.startsWith("\"") && token.endsWith("\"")) {  
-                postfix.add(token); 
+                (token.startsWith("\"") && token.endsWith("\""))) {
+                postfix.add(token);
+                // If the previous token was '!', add it after the operand
+                if (!operators.isEmpty() && operators.peek().equals("!")) {
+                    postfix.add(operators.pop());
+                }
             } else if (token.equals("(")) {
                 operators.push(token);
             } else if (token.equals(")")) {
@@ -116,11 +132,15 @@ public class ExpressionEvaluator {
                 if (!operators.isEmpty() && operators.peek().equals("(")) {
                     operators.pop(); // Remove the "("
                 }
-            } else if (isOperator(token)) { 
-                while (!operators.isEmpty() && precedence(operators.peek()) >= precedence(token)) {
-                    postfix.add(operators.pop());
+            } else if (isOperator(token)) {
+                if (token.equals("!")) {
+                    operators.push(token);
+                } else {
+                    while (!operators.isEmpty() && precedence(operators.peek()) >= precedence(token)) {
+                        postfix.add(operators.pop());
+                    }
+                    operators.push(token);
                 }
-                operators.push(token);
             }
         }
 
@@ -149,16 +169,34 @@ public class ExpressionEvaluator {
             } else if (token.startsWith("\"") && token.endsWith("\"")) {
                 values.push(token.substring(1, token.length() - 1));
             } else if (isOperator(token)) {
-                if (values.size() < 2) {
-                    throw new InterpreterException("Not enough operands for operator " + token);
+                if (token.equals("!")) {
+                    if (values.isEmpty()) {
+                        throw new InterpreterException("Not enough operands for operator " + token);
+                    }
+                    Object a = values.pop();
+                    values.push(performUnaryOperation(token, a));
+                } else if (token.equals("&&") || token.equals("||")) {
+                    if (values.size() < 2) {
+                        throw new InterpreterException("Not enough operands for operator " + token);
+                    }
+                    Object b = values.pop();
+                    Object a = values.pop();
+                    values.push(performLogicalOperation(token, a, b));
+                } else {
+                    if (values.size() < 2) {
+                        throw new InterpreterException("Not enough operands for operator " + token);
+                    }
+                    Object b = values.pop();
+                    Object a = values.pop();
+                    if (a == null || b == null) { throw new InterpreterException("Cannot perform operation on null operands.");
+                    }
+                    values.push(performOperation(token, a, b));
                 }
-                Object b = values.pop();
-                Object a = values.pop();
-                if (a == null || b == null) {
-                    throw new InterpreterException("Cannot perform operation on null operands.");
-                }
-                values.push(performOperation(token, a, b));
             }
+        }
+
+        if (values.isEmpty()) {
+            throw new InterpreterException("Expression evaluation resulted in no value");
         }
 
         if (values.size() > 1) {
@@ -168,18 +206,48 @@ public class ExpressionEvaluator {
         return values.pop();
     }
 
+    private static Object performUnaryOperation(String operator, Object a) {
+        if (operator.equals("!")) {
+            if (a instanceof Boolean) {
+                return !(Boolean) a;
+            }
+            throw new InterpreterException("Cannot perform logical NOT on non-boolean value");
+        }
+        throw new InterpreterException("Unknown unary operator: " + operator);
+    }
+
+    private static Object performLogicalOperation(String operator, Object a, Object b) {
+        if (a instanceof Boolean && b instanceof Boolean) {
+            boolean boolA = (Boolean) a;
+            boolean boolB = (Boolean) b;
+            switch (operator) {
+                case "&&":
+                    return boolA && boolB;
+                case "||":
+                    return boolA || boolB;
+                default:
+                    throw new InterpreterException("Unknown logical operator: " + operator);
+            }
+        }
+        throw new InterpreterException("Cannot perform logical operation on non-boolean values");
+    }
+
     private static boolean isOperator(String token) {
         return token.equals("+") || token.equals("-") || token.equals("*") || token.equals("/") ||
                token.equals("==") || token.equals("!=") || token.equals("<") || token.equals(">") ||
-               token.equals("<=") || token.equals(">=") || token.equals(",");
+               token.equals("<=") || token.equals(">=") || token.equals("&&") || token.equals("||") ||
+               token.equals("!") || token.equals(",");
     }
 
     private static int precedence(String operator) {
         switch (operator) {
             case ",": return 0;
-            case "==": case "!=": case "<": case ">": case "<=": case ">=": return 1;
-            case "+": case "-": return 2;
-            case "*": case "/": return 3;
+            case "||": return 1;
+            case "&&": return 2;
+            case "==": case "!=": return 3;
+            case "<": case ">": case "<=": case ">=": return 4;
+            case "+": case "-": return 5;
+            case "*": case "/": return 6;
             default: return -1;
         }
     }
@@ -196,9 +264,24 @@ public class ExpressionEvaluator {
             case ">": return compare(a, b) > 0;
             case "<=": return compare(a, b) <= 0;
             case ">=": return compare(a, b) >= 0;
+            case "&&": return logicalAnd(a, b);
+            case "||": return logicalOr(a, b);
             case ",": return concatenate(a, b);
             default: throw new InterpreterException("Unknown operator: " + operator);
         }
+    }
+    private static Boolean logicalAnd(Object a, Object b) {
+        if (a instanceof Boolean && b instanceof Boolean) {
+            return (Boolean) a && (Boolean) b;
+        }
+        throw new InterpreterException("Cannot perform logical AND on " + a + " and " + b);
+    }
+
+    private static Boolean logicalOr(Object a, Object b) {
+        if (a instanceof Boolean && b instanceof Boolean) {
+            return (Boolean) a || (Boolean) b;
+        }
+        throw new InterpreterException("Cannot perform logical OR on " + a + " and " + b);
     }
 
     private static Object add(Object a, Object b) {
