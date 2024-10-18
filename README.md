@@ -1,5 +1,5 @@
 # Aphel Programming Language
-![Version](https://img.shields.io/badge/version-1.0.0-blue.svg) ![Java Interpreter](https://img.shields.io/badge/runs%20on-Java-yellow.svg) ![Known Issues](https://img.shields.io/badge/issues-strings%2C%20functions%2C%20logic-red.svg) ![Status](https://img.shields.io/badge/status-experimental-magenta)
+![Version](https://img.shields.io/badge/version-1.1.0-blue.svg) ![Java Interpreter](https://img.shields.io/badge/runs%20on-Java-yellow.svg) ![Known Issues](https://img.shields.io/badge/issues-strings%2C%20functions%2C%20logic-red.svg) ![Status](https://img.shields.io/badge/status-experimental-magenta)
 ```txt
 PRINTC("Hello, World! \n")
 ```
