@@ -1,7 +1,6 @@
 package aphelios;
 
 import java.util.*;
-import aphelios.*;
 
 public class Interpreter {
     private final Map<String, Object> variables = new HashMap<>();
@@ -13,6 +12,7 @@ public class Interpreter {
     public void interpret(List<String> lines) {
         for (int i = 0; i < lines.size(); i++) {
             String line = lines.get(i);
+            Aphel.debug("Interpreting line: " + line);
             if (line.startsWith("FUNCTION")) {
                 i = handleFunctionDefinition(lines, i);
             } else {
@@ -46,6 +46,7 @@ public class Interpreter {
     }
 
     Object executeStatement(String statement) {
+    	Aphel.debug("Executing statement: " + statement);
         if (statement.startsWith("PRINTC(")) {
             handlePrint(statement);
             return null;
@@ -64,6 +65,7 @@ public class Interpreter {
     }
 
     private void handlePrint(String statement) {
+    	Aphel.debug("Handling print statement: " + statement);
         String content = statement.substring(7, statement.length() - 1);
         List<String> args = ExpressionEvaluator.splitArguments(content);
         StringBuilder output = new StringBuilder();
@@ -82,6 +84,7 @@ public class Interpreter {
     }
 
     private void handleAssignment(String statement) {
+    	Aphel.debug("Handling assignment: " + statement);
         String[] parts = statement.split("=");
         String variableName = parts[0].trim();
         String expression = parts[1].trim();
@@ -187,6 +190,7 @@ public class Interpreter {
     }
 
     private Object handleFunctionCall(String statement) {
+    	Aphel.debug("Handling function call: " + statement);
         int openParenIndex = statement.indexOf('(');
         String functionName = statement.substring(0, openParenIndex).trim();
         String arguments = statement.substring(openParenIndex + 1, statement.length() - 1);
@@ -213,6 +217,7 @@ public class Interpreter {
     }
 
     private int handleFunctionDefinition(List<String> lines, int startIndex) {
+    	Aphel.debug("Handling function definition at line " + startIndex);
         String functionLine = lines.get(startIndex);
         String functionName = functionLine.substring(9, functionLine.indexOf("(")).trim();
 

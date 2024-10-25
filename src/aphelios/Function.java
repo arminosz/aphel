@@ -1,7 +1,6 @@
 package aphelios;
 
 import java.util.*;
-import aphelios.*;
 
 public class Function {
     List<String> params;

@@ -1,10 +1,10 @@
 package aphelios;
 
 import java.util.*;
-import aphelios.*;
 
 public class ExpressionEvaluator {
     public static Object evaluateExpression(String expression, Map<String, Object> variables, Map<String, Function> functions) {
+    	Aphel.debug("Evaluating expression: " + expression);
         if (expression == null || expression.isEmpty()) {
             return null;
         }
@@ -155,7 +155,8 @@ public class ExpressionEvaluator {
     }
 
     public static Object evaluatePostfix(List<String> postfix, Map<String, Object> variables, Map<String, Function> functions) {
-        Stack<Object> values = new Stack<>();
+    	Aphel.debug("Evaluating postfix: " + postfix);
+    	Stack<Object> values = new Stack<>();
 
         for (String token : postfix) {
             if (token.matches("[a-zA-Z_][a-zA-Z0-9_]*")) {
@@ -253,6 +254,7 @@ public class ExpressionEvaluator {
     }
 
     private static Object performOperation(String operator, Object a, Object b) {
+    	Aphel.debug("Performing operation: " + a + " " + operator + " " + b);
         switch (operator) {
             case "+": return add(a, b);
             case "-": return subtract(a, b);
