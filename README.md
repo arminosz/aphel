@@ -103,14 +103,14 @@ PRINTC(greeting);
 var1 = false
 var2 = false
 //First Conditional: Logical AND:
-IF(int1 && int2) {
+IF(var1 && var2) {
 PRINTC("And operation completed!")
 }
 //First Conditional: Logical OR:
-IF(!int1 || int2) {
+IF(!var1 || var2) {
 PRINTC("Or operation completed!")
 }
-// !int1 is true because '!' negates false, and int2 is false, so (!int1 OR int2) equals true, thus printing
+// !var1 is true because '!' negates false, and var2 is false, so (!var1 OR var2) equals true, thus printing
 ```
 
 ## ⚡ Known Issues
