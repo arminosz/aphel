@@ -1,7 +1,7 @@
 # Aphel Programming Language
-![Version](https://img.shields.io/badge/version-1.1.1-blue.svg) ![Java Interpreter](https://img.shields.io/badge/runs%20on-Java-yellow.svg) ![Status](https://img.shields.io/badge/status-experimental-magenta)
+![Version](https://img.shields.io/badge/version-1.1.2-blue.svg) ![Java Interpreter](https://img.shields.io/badge/runs%20on-Java-yellow.svg) ![Status](https://img.shields.io/badge/status-experimental-magenta)
 ```txt
-PRINTC("Hello, World! \n")
+PRINTC("Hello, World!")
 ```
 **Aphel** is a simple, high-level, dynamically typed language that I've been building as a fun side project. It's still in early stages, but it's functional enough to handle variable assignments, loops, conditionals, and a bit more :)
 Aphel follows an **imperative** style (structured, step-by-step programming), and run scripts directly in your terminal (or CMD)
