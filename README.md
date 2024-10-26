@@ -44,10 +44,10 @@ java -cp src\aphelios\Aphel.jar aphelios.Aphel yourfile.aph
 ### 1. **Variable Assignment and Printing**
 
 ```txt
-x = 10;
-y = 20;
-z = x + y;
-PRINTC("Sum of x and y is: ", z);
+x = 10
+y = 20
+z = x + y
+PRINTC("Sum of x and y is: ", z)
 ```
 
 ### 2. **If Statement**
@@ -55,17 +55,17 @@ PRINTC("Sum of x and y is: ", z);
 ```txt
 x = 10;
 IF(x > 5) {
-    PRINTC("x is greater than 5");
+    PRINTC("x is greater than 5")
 }
 ```
 
 ### 3. **While Loop**
 
 ```txt
-i = 0;
+i = 0
 WHILE(i < 5) {
-    PRINTC(i, " ");
-    i = i + 1;
+    PRINTC(i, "\n")
+    i = i + 1
 }
 ```
 
@@ -73,7 +73,7 @@ WHILE(i < 5) {
 
 ```txt
 FOR(i = 0; i < 5; i = i + 1) {
-    PRINTC("Iteration: ", i, "\n");
+    PRINTC("Iteration: ", i, "\n")
 }
 ```
 
@@ -81,22 +81,21 @@ FOR(i = 0; i < 5; i = i + 1) {
 
 ```txt
 FUNCTION add(a, b) {
-    RETURN a + b;
+    RETURN a + b
 }
 
-result = add(5, 10);
-PRINTC("Result of function call: ", result);
+result = add(5, 10)
+PRINTC("Result of function call: ", result)
 ```
 > You might get an error here, functions aren’t fully ready yet
 
 ### 6. **String Manipulation**
 
 ```txt
-name = "John";
-greeting = "Hello, " + name + "!";
-PRINTC(greeting);
+name = "John"
+greeting = "Hello, " + name + "!"
+PRINTC(greeting)
 ```
-> Your output may not be the expected one, string manipulation isn't fully ready yet!
 
 ### 7. **Logical Operations**
 ```txt
@@ -117,5 +116,5 @@ PRINTC("Or operation completed!")
 
 The current version of Aphel is still under development, and some features may not work as expected. Here are a few known issues:
 
-- **String Manipulation**: Variables containing strings may not behave as expected when manipulated
 - **Functions**: General function handling is still in development, with incomplete functionality
+- **Logical == and =!** Equality logical operators such as == and =! won't work as expected due to use of Objects.equals
