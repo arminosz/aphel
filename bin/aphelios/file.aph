@@ -1,5 +1,0 @@
-i = 0;
-WHILE(i < 5) {
-    PRINTC(i, "\n");
-    i = i + 1;
-}
