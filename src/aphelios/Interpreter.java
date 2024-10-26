@@ -12,7 +12,9 @@ public class Interpreter {
     public void interpret(List<String> lines) {
         for (int i = 0; i < lines.size(); i++) {
             String line = lines.get(i);
-            Aphel.debug("Interpreting line: " + line);
+            if (!line.startsWith("//")) {
+            	Aphel.debug("Interpreting line: " + line);
+            }
             if (line.startsWith("FUNCTION")) {
                 i = handleFunctionDefinition(lines, i);
             } else {

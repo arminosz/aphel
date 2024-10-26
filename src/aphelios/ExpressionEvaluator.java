@@ -12,7 +12,15 @@ public class ExpressionEvaluator {
         expression = expression.trim();
 
         if (expression.startsWith("\"") && expression.endsWith("\"")) {
-            return expression.substring(1, expression.length() - 1);
+            int quoteCount = 0;
+            for (int i = 0; i < expression.length(); i++) {
+                if (expression.charAt(i) == '"') {
+                    quoteCount++;
+                }
+            }
+            if (quoteCount == 2) {
+                return expression.substring(1, expression.length() - 1);
+            }
         }
 
         if (expression.equals("true")) {
@@ -24,7 +32,15 @@ public class ExpressionEvaluator {
         try {
             return Integer.parseInt(expression);
         } catch (NumberFormatException e) {
-            // Not an integer, continue
+        	try {
+                double value = Double.parseDouble(expression);
+                if (value == Math.floor(value)) {
+                    return (int) value;
+                }
+                return value;
+            } catch (NumberFormatException e2) {
+                // Not a number, continue
+            }
         }
 
         try {
@@ -288,7 +304,11 @@ public class ExpressionEvaluator {
 
     private static Object add(Object a, Object b) {
         if (a instanceof Number && b instanceof Number) {
-            return ((Number)a).doubleValue() + ((Number)b).doubleValue();
+            double result = ((Number)a).doubleValue() + ((Number)b).doubleValue();
+            if (result == Math.floor(result)) {
+                return (int) result;
+            }
+            return result;
         } else {
             return String.valueOf(a) + String.valueOf(b);
         }
@@ -296,14 +316,22 @@ public class ExpressionEvaluator {
 
     private static Object subtract(Object a, Object b) {
         if (a instanceof Number && b instanceof Number) {
-            return ((Number) a).doubleValue() - ((Number) b).doubleValue();
+            double result = ((Number) a).doubleValue() - ((Number) b).doubleValue();
+            if (result == Math.floor(result)) {
+                return (int) result;
+            }
+            return result;
         }
         throw new InterpreterException("Cannot subtract " + a + " and " + b);
     }
 
     private static Object multiply(Object a, Object b) {
         if (a instanceof Number && b instanceof Number) {
-            return ((Number) a).doubleValue() * ((Number) b).doubleValue();
+            double result = ((Number) a).doubleValue() * ((Number) b).doubleValue();
+            if (result == Math.floor(result)) {
+                return (int) result;
+            }
+            return result;
         }
         throw new InterpreterException("Cannot multiply " + a + " and " + b);
     }
