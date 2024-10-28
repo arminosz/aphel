@@ -101,15 +101,20 @@ PRINTC(greeting)
 ```txt
 var1 = false
 var2 = false
+
 //First Conditional: Logical AND:
 IF(var1 && var2) {
 PRINTC("And operation completed!")
+//Won't print because not both of
+//the values are true
 }
-//First Conditional: Logical OR:
+
+//Second Conditional: Logical OR:
 IF(!var1 || var2) {
 PRINTC("Or operation completed!")
+//Will print because at least one
+//value is true (!var1 = true)
 }
-// !var1 is true because '!' negates false, and var2 is false, so (!var1 OR var2) equals true, thus printing
 ```
 
 ## ⚡ Known Issues
@@ -117,4 +122,4 @@ PRINTC("Or operation completed!")
 The current version of Aphel is still under development, and some features may not work as expected. Here are a few known issues:
 
 - **Functions**: General function handling is still in development, with incomplete functionality
-- **Logical == and =!** Equality logical operators such as == and =! won't work as expected due to use of Objects.equals
+- **Logical Operators:** Equality logical operators such as == and =! won't work as expected due to use of Objects.equals
