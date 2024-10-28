@@ -4,7 +4,7 @@ setlocal
 set JAR_PATH=src\aphelios\Aphel.jar
 
 if "%~1"=="" (
-    echo Error: No .aph file specified, usage: aphel file.aph
+    echo Error: No .aph file specified, usage: apheldebug file.aph
     exit /b 1
 )
 
