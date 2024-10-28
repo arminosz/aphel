@@ -53,7 +53,7 @@ PRINTC("Sum of x and y is: ", z)
 ### 2. **If Statement**
 
 ```txt
-x = 10;
+x = 10
 IF(x > 5) {
     PRINTC("x is greater than 5")
 }
